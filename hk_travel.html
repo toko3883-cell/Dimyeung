@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香港漫遊｜攝影打卡寶地＋地道美食指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif;
+        }
+        body {
+            background: linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)), url("bg.jpeg") center / cover fixed;
+            color: #222;
+            line-height: 1.7;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #e2e2e2;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #c0392b;
+            margin-bottom:10px;
+        }
+        .intro {
+            font-size:17px;
+            color:#444;
+            max-width:800px;
+            margin:0 auto;
+        }
+        h2 {
+            margin:35px 0 15px;
+            color:#2c3e50;
+            border-left:5px solid #e74c3c;
+            padding-left:12px;
+        }
+        h3 {
+            margin:22px 0 10px;
+            color:#34495e;
+        }
+        p, li {
+            font-size:16px;
+            margin-bottom:8px;
+        }
+        ul {
+            padding-left:24px;
+            margin-bottom:16px;
+        }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap:14px;
+            margin:25px 0;
+        }
+        .photo-item {
+            background:#fff;
+            border-radius:8px;
+            overflow:hidden;
+            box-shadow:0 2px 6px #00000018;
+            cursor:pointer;
+        }
+        .photo-item img {
+            width:100%;
+            height:180px;
+            object-fit:cover;
+            display:block;
+        }
+        .photo-caption {
+            padding:8px 10px;
+            font-size:14px;
+            color:#555;
+        }
+        .tips-box {
+            background:#fff3cd;
+            padding:18px;
+            border-radius:8px;
+            margin:30px 0;
+        }
+        footer {
+            text-align:center;
+            margin-top:50px;
+            padding:25px 20px;
+            color:#777;
+            border-top:1px solid #ddd;
+        }
+        .contact-block{
+            margin-top:20px;
+            padding-top:20px;
+            border-top:1px dashed #cccccc;
+        }
+        .contact-block p{
+            font-size:15px;
+            margin-bottom:12px;
+        }
+        .qr-wrap{
+            display:grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap:20px;
+            margin-top:16px;
+        }
+        .qr-card{
+            background:#ffffff;
+            padding:14px;
+            border-radius:10px;
+            box-shadow:0 1px 4px #0000001a;
+        }
+        .qr-card img{
+            width:100%;
+            max-width:280px;
+            border-radius:6px;
+        }
+        /* ========== 燈箱大圖彈窗樣式 ========== */
+        .lightbox {
+            position: fixed;
+            top:0;
+            left:0;
+            width:100vw;
+            height:100vh;
+            background:rgba(0,0,0,0.9);
+            display:none;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            z-index:9999;
+            padding:16px;
+        }
+        .lightbox img {
+            max-width:95%;
+            max-height:75vh;
+            object-fit:contain;
+            border-radius:4px;
+        }
+        .lightbox-desc {
+            color:#ffffff;
+            margin-top:16px;
+            max-width:900px;
+            text-align:center;
+            font-size:15px;
+            line-height:1.8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>香港漫遊｜攝影打卡寶地＋地道美食指南</h1>
+        <div class="intro">
+            走進香港，一面係摩天大樓嘅都市氣派，一面係舊街小巷嘅市井煙火。無論鍾情城市風景、街頭塗鴉、復古建築，又或者想品嘗地道滋味，以下呢啲地點，既可以瘋狂影相，又可以搵食，好適合一日漫遊。
+        </div>
+    </header>
+
+    <div class="photo-grid">
+        <div class="photo-item" data-desc="【The Henderson】&#10;介紹：中環美利道嘅旋轉玻璃藝術裝置，未來感建築，免費打卡。&#10;🚇交通：港鐵中環站出口，步行3分鐘。&#10;🍜附近食：中環街市各式小食、茶餐廳。">
+            <img src="TH/photo 1.jpeg" alt="The Henderson旋轉玻璃漩渦裝置">
+            <div class="photo-caption">The Henderson旋轉玻璃漩渦裝置</div>
+        </div>
+        <div class="photo-item" data-desc="【九龍公園噴水池】&#10;介紹：尖沙咀鬧市入面嘅綠洲，舊式噴水池，充滿復古感，適合人文攝影。&#10;🚇交通：港鐵尖沙咀站A1出口，步行5分鐘。&#10;🍜附近食：尖沙咀舊街茶餐廳、魚蛋粉、菠蘿油。">
+            <img src="KL/photo 2.jpeg" alt="九龍公園噴水池">
+            <div class="photo-caption">九龍公園噴水池</div>
+        </div>
+        <div class="photo-item" data-desc="【堅彌地城新海旁】&#10;介紹：西環海濱長廊，望住維港，街拍同海景人像一流。&#10;🚇交通：港鐵堅尼地城站C出口，步行6分鐘。&#10;🍜附近食：西環街坊麵店、咖啡店。">
+            <img src="KR/photo 3.jpeg" alt="堅彌地城新海旁">
+            <div class="photo-caption">堅彌地城新海旁</div>
+        </div>
+        <div class="photo-item" data-desc="【尖沙咀鐘樓】&#10;介紹：九龍地標，前九廣鐵路鐘樓，維港岸邊經典打卡位。&#10;🚇交通：港鐵尖東站J出口；亦可搭天星小輪由中環過海。&#10;🍜附近食：星光大道周邊小食、茶餐廳。">
+            <img src="ST/photo 4.jpeg" alt="尖沙咀鐘樓">
+            <div class="photo-caption">尖沙咀鐘樓</div>
+        </div>
+        <div class="photo-item" data-desc="【中環維港摩天輪】&#10;介紹：中環海邊摩天輪，二十蚊坐三圈，飽覽維港兩岸風景。&#10;🚇交通：港鐵中環站A出口，往9號碼頭方向步行。&#10;🍜附近食：中環海濱小食檔、IFC商場餐廳。">
+            <img src="CR/photo 5.jpeg" alt="中環維港摩天輪">
+            <div class="photo-caption">中環維港摩天輪</div>
+        </div>
+        <div class="photo-item" data-desc="【中環維港摩天輪】&#10;介紹：中環海邊摩天輪，二十蚊坐三圈，飽覽維港兩岸風景。&#10;🚇交通：港鐵中環站A出口，往9號碼頭方向步行。&#10;🍜附近食：中環海濱小食檔、IFC商場餐廳。">
+            <img src="CR/photo 6.jpeg" alt="中環維港摩天輪">
+            <div class="photo-caption">中環維港摩天輪</div>
+        </div>
+        <div class="photo-item" data-desc="【海港城網紅樓梯】&#10;介紹：海港城二樓海邊樓梯，直面維港，黃昏日落拍攝效果最好。&#10;🚇交通：港鐵尖沙咀站海港城出口。&#10;🍜附近食：海港城內各式餐廳，平價至高級都有。">
+            <img src="TS/photo 8.jpeg" alt="海港城網紅樓梯">
+            <div class="photo-caption">海港城網紅樓梯</div>
+        </div>
+        <div class="photo-item" data-desc="【中環街市】&#10;介紹：活化百年舊街市，復古樓梯窗格，滿滿舊香港市井氣息。&#10;🚇交通：港鐵中環站C出口，步行4分鐘。&#10;🍜附近食：街市入面大量地道小食、燒賣魚蛋、點心。">
+            <img src="CL/photo 9.jpeg" alt="中環街市">
+            <div class="photo-caption">中環街市</div>
+        </div>
+        <div class="photo-item" data-desc="【中環街市】&#10;介紹：活化百年舊街市，復古樓梯窗格，滿滿舊香港市井氣息。&#10;🚇交通：港鐵中環站C出口，步行4分鐘。&#10;🍜附近食：街市入面大量地道小食、燒賣魚蛋、點心。">
+            <img src="CL/photo 10.jpeg" alt="中環街市">
+            <div class="photo-caption">中環街市</div>
+        </div>
+        <div class="photo-item" data-desc="【中環街市】&#10;介紹：活化百年舊街市，復古樓梯窗格，滿滿舊香港市井氣息。&#10;🚇交通：港鐵中環站C出口，步行4分鐘。&#10;🍜附近食：街市入面大量地道小食、燒賣魚蛋、點心。">
+            <img src="CL/photo 11.jpeg" alt="中環街市">
+            <div class="photo-caption">中環街市</div>
+        </div>
+        <div class="photo-item" data-desc="【中環嘉咸街壁畫牆】&#10;介紹：荷李活道斜坡壁畫，畫滿舊唐樓，香港經典街拍聖地。&#10;🚇交通：港鐵中環站，沿半山扶梯步行5分鐘。&#10;🍜附近食：上環茶餐廳、咖啡小店。">
+            <img src="CM/photo 12.jpeg" alt="中環嘉咸街壁畫牆">
+            <div class="photo-caption">中環嘉咸街壁畫牆</div>
+        </div>
+        <div class="photo-item" data-desc="【中環嘉咸街壁畫牆】&#10;介紹：荷李活道斜坡壁畫，畫滿舊唐樓，香港經典街拍聖地。&#10;🚇交通：港鐵中環站，沿半山扶梯步行5分鐘。&#10;🍜附近食：上環茶餐廳、咖啡小店。">
+            <img src="CM/photo 13.jpeg" alt="中環嘉咸街壁畫牆">
+            <div class="photo-caption">中環嘉咸街壁畫牆</div>
+        </div>
+        <div class="photo-item" data-desc="【中環大館古蹟建築】&#10;介紹：舊警署監獄活化古蹟，拱廊、中庭，文藝氣息重，免費入場。&#10;🚇交通：港鐵中環站，半山扶梯向上步行。&#10;🍜附近食：大館內咖啡店、蘇豪區多國菜。">
+            <img src="CH/photo 14.jpeg" alt="中環大館古蹟建築">
+            <div class="photo-caption">中環大館古蹟建築</div>
+        </div>
+        <div class="photo-item" data-desc="【富豪雪糕車】&#10;介紹：香港標誌流動雪糕車，香滑軟雪糕，車身本身就係打卡風景。&#10;🚇交通：流動擺放，常見於尖沙咀、中環碼頭一帶。&#10;🍜附近食：就係食佢嘅軟雪糕！">
+            <img src="QO/photo 15.jpeg" alt="富豪雪糕車">
+            <div class="photo-caption">富豪雪糕車</div>
+        </div>
+    </div>
+
+    <div class="tips-box">
+        <h3>📷拍攝小提示</h3>
+        <ul>
+            <li>維港夜景建議黃昏前半小時到，藍調時刻畫面最好睇</li>
+            <li>海邊風大，相機記得握穩，注意器材安全</li>
+            <li>大部分市區景點免費，部分展覽需要另外購票</li>
+        </ul>
+    </div>
+
+    <footer>
+        <div class="contact-block">
+            <p>📸香港約拍・陪拍服務｜歡迎預約香港人像、城市風景攝影</p>
+            <div class="qr-wrap">
+                <!-- 抖音 -->
+                <div class="qr-card">
+                    <img src="douyin_qr.jpg" alt="抖音：來都來了">
+                    <p><strong>抖音：來都來了</strong></p>
+                    <p>抖音號：HalfImmortal</p>
+                </div>
+                <!-- 小紅書 -->
+                <div class="qr-card">
+                    <img src="xiaohongshu_qr.jpg" alt="小紅書：來都來了">
+                    <p><strong>小紅書：來都來了</strong></p>
+                    <p>小紅書號：Firefans</p>
+                </div>
+                <!-- 微信 -->
+                <div class="qr-card">
+                    <img src="wechat_qr.jpg" alt="微信：來都來了">
+                    <p><strong>微信：來都來了</strong></p>
+                    <p>掃描QR Code，新增我為朋友</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 燈箱JS -->
+    <script>
+        const items = document.querySelectorAll('.photo-item');
+        const lightbox = document.createElement('div');
+        lightbox.className = 'lightbox';
+        lightbox.innerHTML = `<img src="" alt="大圖"><div class="lightbox-desc"></div>`;
+        document.body.appendChild(lightbox);
+
+        items.forEach(el=>{
+            el.addEventListener('click',()=>{
+                const img = el.querySelector('img');
+                const desc = el.dataset.desc || '';
+                lightbox.querySelector('img').src = img.src;
+                lightbox.querySelector('.lightbox-desc').innerText = desc;
+                lightbox.style.display = 'flex';
+            })
+        })
+        lightbox.addEventListener('click',()=>{
+            lightbox.style.display = 'none';
+        })
+    </script>
+</body>
+</html>
