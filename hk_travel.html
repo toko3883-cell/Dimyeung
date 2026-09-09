@@ -12,7 +12,10 @@
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif;
         }
         body {
-            background: #ffffff;
+            /* 新增背景圖設定 */
+            background: #ffffff url("bg.jpeg") no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
             color: #222;
             line-height: 1.7;
             max-width: 1100px;
@@ -20,10 +23,12 @@
             padding: 20px;
         }
         header {
+            background: rgba(255,255,255,0.85);
             text-align: center;
             padding: 30px 0;
             border-bottom: 2px solid #e2e2e2;
             margin-bottom: 30px;
+            border-radius:12px;
         }
         h1 {
             color: #c0392b;
@@ -78,17 +83,19 @@
             color:#555;
         }
         .tips-box {
-            background:#fff3cd;
+            background:rgba(255,243,205,0.9);
             padding:18px;
             border-radius:8px;
             margin:30px 0;
         }
         footer {
+            background:rgba(255,255,255,0.85);
             text-align:center;
             margin-top:50px;
             padding:25px 20px;
             color:#777;
             border-top:1px solid #ddd;
+            border-radius:12px;
         }
         .contact-block{
             margin-top:20px;
