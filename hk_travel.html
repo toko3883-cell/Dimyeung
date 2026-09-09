@@ -12,7 +12,7 @@
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif;
         }
         body {
-            /* 新增背景圖設定 */
+            position: relative;
             background: #ffffff url("bg.jpeg") no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
@@ -21,6 +21,17 @@
             max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
+        }
+        /* 半透明白色遮罩，減低背景圖濃度 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255,255,255,0.75);
+            z-index: -1;
         }
         header {
             background: rgba(255,255,255,0.85);
@@ -283,7 +294,7 @@
 
     <footer>
         <div class="contact-block">
-            <p>📸香港約拍・陪拍服務｜歡迎預約香港人像、城市風景攝影</p>
+            <p>📸香港約拍・陪拍・街拍，小型社區活動服務 (只限於星期六日或公眾假期 )｜歡迎預約 香港人像、城市風景攝影、小型社區活動攝影</p>
             <div class="qr-wrap">
                 <div class="qr-card">
                     <img src="douyin_qr.jpg" alt="抖音：來都來了">
