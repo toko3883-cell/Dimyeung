@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-i18n="page_title">龍舟 — 千年競渡，水上傳奇</title>
 <!-- 字體改用官方 Google Fonts CDN，解決原 miaoda.feishu.cn 失效問題 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1131,9 +1133,33 @@ html.lang-en .hero-title {
   .mission-pillars { grid-template-columns: 1fr; gap: 18px; }
   .mission-card { padding: 26px 22px 24px; }
 }
+
+    /* 第二頁頂部「返回首頁」導航 */
+    .site-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(245,240,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(184,35,47,.12);}
+    .site-nav-inner{max-width:1200px;margin:0 auto;padding:12px 48px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+    .site-nav-brand{font-family:'Noto Serif SC',serif;font-weight:900;font-size:18px;color:var(--red);letter-spacing:1px;text-decoration:none;white-space:nowrap;}
+    .site-nav-links{display:flex;gap:12px;align-items:center;}
+    .site-nav-links a{font-size:14px;font-weight:600;color:var(--ink-light);padding:8px 18px;border-radius:20px;transition:all .25s;}
+    .site-nav-links a:hover{background:rgba(184,35,47,.08);color:var(--red);}
+    .site-nav-links a.active{background:var(--red);color:#fff;}
+    .site-nav-back{background:var(--red)!important;color:#fff!important;font-weight:700!important;}
+    .site-nav-back:hover{opacity:.88;color:#fff!important;background:var(--red-deep)!important;}
+    /* 讓 dragon 原本嘅 .nav 避開 site-nav 高度 */
+    @media(min-width:901px){ .nav{top:54px;} }
+    @media(max-width:900px){ .site-nav-inner{padding:12px 20px;} .site-nav-links a{padding:6px 12px;font-size:13px;} }
 </style>
 </head>
 <body>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a class="site-nav-brand" href="index.html">🏠 香港漫遊</a>
+    <div class="site-nav-links">
+      <a href="index.html">📷 打卡指南</a>
+      <a href="dragon.html" class="active">🐉 龍舟文化</a>
+    </div>
+  </div>
+</nav>
 
 <!-- ===== 頂部「返回首頁 · 香港漫遊」導航 ===== -->
 <nav class="site-nav">
@@ -2089,6 +2115,5 @@ document.addEventListener('DOMContentLoaded', function() {
   <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="下一張">›</button>
   <div class="lightbox-caption" id="lbCaption"></div>
 </div>
-
 </body>
 </html>
