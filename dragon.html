@@ -82,6 +82,50 @@ a { color: inherit; text-decoration: none; }
 .lang-btn:hover:not(.active) { background: rgba(184,35,47,0.08); }
 @media (max-width: 900px) { .lang-switch { display: flex; } }
 
+/* ===== 頂部「返回首頁」導航（香港漫遊） ===== */
+.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 101;
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+.site-nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 10px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px;
+}
+.site-nav-brand {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700; font-size: 16px;
+  color: #fff; letter-spacing: 1px;
+  white-space: nowrap;
+}
+.site-nav-links { display: flex; align-items: center; gap: 20px; }
+.site-nav-links a {
+  font-size: 14px; font-weight: 500;
+  color: rgba(255,255,255,0.9);
+  padding: 4px 0;
+  transition: color 0.25s;
+}
+.site-nav-links a:hover { color: var(--gold-light); }
+.site-nav-links a.active { color: var(--gold-light); font-weight: 700; }
+.site-nav-back {
+  background: #fff; color: var(--red) !important;
+  padding: 6px 16px !important;
+  border-radius: 20px; font-weight: 700 !important;
+  transition: opacity 0.25s;
+}
+.site-nav-back:hover { opacity: 0.88; color: var(--red) !important; }
+/* 讓下方 .nav 避開 site-nav 高度 */
+.nav { top: 46px; }
+@media (max-width: 900px) {
+  .site-nav-inner { padding: 10px 20px; }
+  .site-nav-links { gap: 12px; }
+  .site-nav-brand { font-size: 14px; }
+  .nav { top: 44px; }
+}
+
 /* ===== Hero ===== */
 .hero {
   position: relative;
@@ -1090,6 +1134,18 @@ html.lang-en .hero-title {
 </style>
 </head>
 <body>
+
+<!-- ===== 頂部「返回首頁 · 香港漫遊」導航 ===== -->
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a class="site-nav-brand" href="index.html">🏠 首頁 · 香港漫遊</a>
+    <div class="site-nav-links">
+      <a href="index.html" class="active">📷 打卡指南</a>
+      <a href="dragon.html">🐉 龍舟文化</a>
+      <a href="index.html" class="site-nav-back">← 返回首頁</a>
+    </div>
+  </div>
+</nav>
 
 <!-- ===== 導航欄 ===== -->
 <nav class="nav">
