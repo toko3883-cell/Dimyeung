@@ -889,7 +889,6 @@ html.lang-en .hero-title {
 .gallery-item.wide { grid-column: span 2; aspect-ratio: 16/9; }
 .gallery-item.tall { grid-row: span 2; aspect-ratio: 3/4; }
 
-
 /* ===== 相簿（圖展分類） ===== */
 .album { margin-bottom: 64px; }
 .album:last-child { margin-bottom: 0; }
@@ -1155,6 +1154,15 @@ html.lang-en .hero-title {
   .mission-pillars { grid-template-columns: 1fr; gap: 18px; }
   .mission-card { padding: 26px 22px 24px; }
 }
+
+@media (max-width:900px){
+  .lang-switch{position:fixed!important;top:54px!important;right:12px!important;z-index:9999!important;display:flex!important;}
+  .lang-btn{padding:7px 15px;font-size:14px;min-width:38px;}
+}
+@media (max-width:520px){
+  .lang-switch{top:52px!important;right:10px!important;}
+  .lang-btn{padding:6px 12px;font-size:13px;min-width:36px;}
+}
 </style>
 </head>
 <body>
@@ -1193,10 +1201,6 @@ html.lang-en .hero-title {
     <li><a href="#founders" data-i18n="nav_founders">創辦人</a></li>
     <li><a href="#culture" data-i18n="nav_culture">文化</a></li>
   </ul>
-  <div class="lang-switch">
-    <button class="lang-btn active" data-lang="zh" onclick="switchLang('zh')">中</button>
-    <button class="lang-btn" data-lang="en" onclick="switchLang('en')">EN</button>
-  </div>
 </nav>
 
 <!-- ===== Hero ===== -->
@@ -1218,7 +1222,6 @@ html.lang-en .hero-title {
     </svg>
   </div>
 </section>
-
 
 <!-- ===== 初衷與宗旨 ===== -->
 <section class="mission-section" id="mission">
@@ -1693,7 +1696,6 @@ var I18N = {
   cul_h3: { zh: "趁景聯誼", en: "Festive Gathering" },
   cul_d3: { zh: "東莞一帶嘅「趁景」習俗，龍舟在江面相遇自發切磋競速，不設名次，聚散自由，盡顯鄉里情誼。", en: "In Dongguan, the 'chenjing' custom sees dragon boats meeting on the river and racing spontaneously — no rankings, free to gather or disperse, full of neighbourhood camaraderie." },
 
-
   mission_label: { zh: "初 衷 與 宗 旨", en: "OUR  VISION  &  MISSION" },
   mission_title: { zh: "因為怕佢失傳，所以我哋重新執起支槳", en: "We Picked Up the Paddle Again, For Fear It Might Be Lost" },
   mission_vision_label: { zh: "創 辦 初 衷", en: "OUR  FOUNDING  VISION" },
@@ -1880,13 +1882,11 @@ function renderFlyers() {
   grid.innerHTML = html;
 }
 
-
 /* ============================================================
    圖展相簿資料 — 新增圖庫內容
    ※ 要增減相片，改下面 ALBUMS 陣列即可
    ※ 圖片檔放於 images/ 目錄
    ============================================================ */
-
 
 /* ============================================================
    圖展相簿資料 — 集中存放於 photos.json
@@ -2088,7 +2088,6 @@ function renderAlbums() {
   bindGalleryClick(root);
 }
 
-
 /* ============================================================
    初始化
    ============================================================ */
@@ -2114,5 +2113,10 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="lightbox-caption" id="lbCaption"></div>
 </div>
 
+<!-- 語言切換掣：body 直屬，position fixed，手機/平板/桌面都見到 -->
+<div class="lang-switch" style="position:fixed;top:54px;right:12px;z-index:9999;display:flex;gap:0;border:1px solid rgba(184,35,47,0.25);border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.15);">
+  <button class="lang-btn active" data-lang="zh" onclick="switchLang('zh')">中</button>
+  <button class="lang-btn" data-lang="en" onclick="switchLang('en')">EN</button>
+</div>
 </body>
 </html>

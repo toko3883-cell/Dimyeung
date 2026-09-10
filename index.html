@@ -176,6 +176,16 @@
 </style>
 </head>
 <body>
+<!-- 語言切換掣：body 直屬，position fixed，手機/平板/桌面都見到 -->
+<div class="lang-switch" style="position:fixed; top:14px; right:14px; z-index:9999; display:flex; gap:0; border:1px solid rgba(192,57,43,0.25); border-radius:20px; overflow:hidden; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,0.15);">
+  <button class="lang-btn active" data-lang="zh" onclick="switchLang('zh')" style="background:transparent;border:none;cursor:pointer;padding:7px 15px;font-size:14px;font-weight:600;color:#444;font-family:inherit;">中</button>
+  <button class="lang-btn" data-lang="en" onclick="switchLang('en')" style="background:transparent;border:none;cursor:pointer;padding:7px 15px;font-size:14px;font-weight:600;color:#444;font-family:inherit;">EN</button>
+</div>
+<style>
+  .lang-switch .lang-btn.active { background:#c0392b; color:#fff !important; }
+  @media (max-width:900px){ .lang-switch{top:12px !important; right:12px !important; position:fixed !important; z-index:99999 !important;} }
+</style>
+
 
 <nav class="site-nav">
   <div class="site-nav-inner">
@@ -384,5 +394,14 @@
             lightbox.style.display = 'none';
         })
     </script>
+
+<script>
+function switchLang(lang){
+  var el = document.documentElement;
+  if(lang === 'en') el.className = 'lang-en'; else el.className = '';
+  var btns = document.querySelectorAll('.lang-btn');
+  btns.forEach(function(b){ b.classList.toggle('active', b.dataset.lang === lang); });
+}
+</script>
 </body>
 </html>
