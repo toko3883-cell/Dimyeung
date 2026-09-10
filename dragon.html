@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-i18n="page_title">龍舟 — 千年競渡，水上傳奇</title>
 <!-- 字體改用官方 Google Fonts CDN，解決原 miaoda.feishu.cn 失效問題 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,6 +41,7 @@ a { color: inherit; text-decoration: none; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 18px 48px;
+  gap: 16px;         /* ★ 俾 logo 同右側有緩衝，唔會頂住 lang-switch */
   background: rgba(245,240,232,0.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(184,35,47,0.12);
@@ -73,16 +72,37 @@ a { color: inherit; text-decoration: none; }
 .nav-links a:hover::after { width: 100%; }
 
 /* ===== 語言切換 ===== */
-.lang-switch { display: flex; gap: 0; border: 1px solid rgba(184,35,47,0.2); border-radius: 20px; overflow: hidden; }
+.lang-switch {
+  display: flex; gap: 0;
+  border: 1px solid rgba(184,35,47,0.2); border-radius: 20px;
+  overflow: hidden;
+  flex-shrink: 0;   /* ★ 關鍵：永遠唔俾 flex 壓縮到消失 */
+  z-index: 5;
+}
 .lang-btn {
   background: transparent; border: none; cursor: pointer;
   padding: 6px 14px; font-size: 13px; font-weight: 600;
   color: var(--ink-light); transition: all 0.25s;
   font-family: inherit;
+  min-width: 36px;   /* ★ 保證「中」「EN」最少有呢個闊度，唔會被壓扁 */
+  text-align: center;
 }
 .lang-btn.active { background: var(--red); color: #fff; }
 .lang-btn:hover:not(.active) { background: rgba(184,35,47,0.08); }
-@media (max-width: 900px) { .lang-switch { display: flex; } }
+
+/* ★ 手機 / 平板（<900px）：語言掣獨立固定喺右上角，永遠可見可撳 */
+@media (max-width: 900px) {
+  .lang-switch {
+    position: fixed;
+    top: 52px;        /* 喺 .site-nav（約 44-46px）之下、.nav 之內 */
+    right: 16px;
+    z-index: 200;    /* 高過一般內容，確保永遠喺最上 */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    background: #fff;
+  }
+  /* .nav 入面原本嗰個 lang-switch 位置留返空間，避免重疊閃爍 */
+  .nav .lang-switch { /* 喺桌面正常，手機時改咗 position:fixed 所以冇衝突 */ }
+}
 
 /* ===== 頂部「返回首頁」導航（香港漫遊） ===== */
 .site-nav {
@@ -993,6 +1013,8 @@ html.lang-en .hero-title {
 @media (max-width: 900px) {
   .nav { padding: 14px 20px; }
   .nav-links { display: none; }
+  /* ★ .lang-switch 改咗 position:fixed（見上方），呢度確保佢唔俾 display:none 影響 */
+  .nav .lang-switch { display: flex !important; }
   .section { padding: 64px 24px; }
   .intro-grid, .structure-grid, .rules-compare {
     grid-template-columns: 1fr; gap: 32px;
@@ -1133,33 +1155,9 @@ html.lang-en .hero-title {
   .mission-pillars { grid-template-columns: 1fr; gap: 18px; }
   .mission-card { padding: 26px 22px 24px; }
 }
-
-    /* 第二頁頂部「返回首頁」導航 */
-    .site-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(245,240,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(184,35,47,.12);}
-    .site-nav-inner{max-width:1200px;margin:0 auto;padding:12px 48px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
-    .site-nav-brand{font-family:'Noto Serif SC',serif;font-weight:900;font-size:18px;color:var(--red);letter-spacing:1px;text-decoration:none;white-space:nowrap;}
-    .site-nav-links{display:flex;gap:12px;align-items:center;}
-    .site-nav-links a{font-size:14px;font-weight:600;color:var(--ink-light);padding:8px 18px;border-radius:20px;transition:all .25s;}
-    .site-nav-links a:hover{background:rgba(184,35,47,.08);color:var(--red);}
-    .site-nav-links a.active{background:var(--red);color:#fff;}
-    .site-nav-back{background:var(--red)!important;color:#fff!important;font-weight:700!important;}
-    .site-nav-back:hover{opacity:.88;color:#fff!important;background:var(--red-deep)!important;}
-    /* 讓 dragon 原本嘅 .nav 避開 site-nav 高度 */
-    @media(min-width:901px){ .nav{top:54px;} }
-    @media(max-width:900px){ .site-nav-inner{padding:12px 20px;} .site-nav-links a{padding:6px 12px;font-size:13px;} }
 </style>
 </head>
 <body>
-
-<nav class="site-nav">
-  <div class="site-nav-inner">
-    <a class="site-nav-brand" href="index.html">🏠 香港漫遊</a>
-    <div class="site-nav-links">
-      <a href="index.html">📷 打卡指南</a>
-      <a href="dragon.html" class="active">🐉 龍舟文化</a>
-    </div>
-  </div>
-</nav>
 
 <!-- ===== 頂部「返回首頁 · 香港漫遊」導航 ===== -->
 <nav class="site-nav">
@@ -2115,5 +2113,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="下一張">›</button>
   <div class="lightbox-caption" id="lbCaption"></div>
 </div>
+
 </body>
 </html>
