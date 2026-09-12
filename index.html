@@ -1,19 +1,20 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>香港漫遊｜攝影打卡寶地＋地道美食指南</title>
+    <title>香港網紅打卡熱點</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", "PingFang SC", sans-serif;
         }
         body {
             position: relative;
-            background: #ffffff url("bg.jpeg") no-repeat center center;
+            background: #ffffff url("images/Banner/bg.jpg") no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
             color: #222;
@@ -22,7 +23,6 @@
             margin: 0 auto;
             padding: 20px;
         }
-        /* 半透明白色遮罩，減低背景圖濃度 */
         body::before {
             content: "";
             position: fixed;
@@ -36,7 +36,7 @@
         header {
             background: rgba(255,255,255,0.85);
             text-align: center;
-            padding: 30px 0;
+            padding: 30px 20px;
             border-bottom: 2px solid #e2e2e2;
             margin-bottom: 30px;
             border-radius:12px;
@@ -51,11 +51,21 @@
             max-width:800px;
             margin:0 auto;
         }
-        h2 {
-            margin:35px 0 15px;
-            color:#2c3e50;
-            border-left:5px solid #e74c3c;
-            padding-left:12px;
+        .lang-btn-wrap{
+            margin-top:14px;
+        }
+        .lang-btn{
+            padding:6px 14px;
+            border:1px solid #c0392b;
+            background:#fff;
+            color:#c0392b;
+            border-radius:6px;
+            cursor:pointer;
+            margin:0 4px;
+        }
+        .lang-btn.active{
+            background:#c0392b;
+            color:white;
         }
         h3 {
             margin:22px 0 10px;
@@ -134,13 +144,18 @@
             max-width:280px;
             border-radius:6px;
         }
+        [data-lang="zh-Hans"],[data-lang="zh-Hant"]{display:none;}
+        html[lang="zh-Hant"] [data-lang="zh-Hant"]{display:block;}
+        html[lang="zh-Hans"] [data-lang="zh-Hans"]{display:block;}
+
+        /* ========== Lightbox燈箱 ========== */
         .lightbox {
             position: fixed;
             top:0;
             left:0;
             width:100vw;
             height:100vh;
-            background:rgba(0,0,0,0.9);
+            background:rgba(0,0,0,0.92);
             display:none;
             flex-direction:column;
             align-items:center;
@@ -148,225 +163,547 @@
             z-index:9999;
             padding:16px;
         }
-        .lightbox img {
-            max-width:95%;
-            max-height:75vh;
+        .lightbox-inner{
+            position:relative;
+            width:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .lightbox-img{
+            max-width:92%;
+            max-height:72vh;
             object-fit:contain;
             border-radius:4px;
         }
+        .lb-arrow{
+            position:absolute;
+            top:50%;
+            transform:translateY(-50%);
+            font-size:40px;
+            color:#fff;
+            background:rgba(0,0,0,0.35);
+            border:none;
+            width:46px;
+            height:46px;
+            border-radius:50%;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            line-height:1;
+        }
+        .lb-prev{left:10px;}
+        .lb-next{right:10px;}
+        .lb-count{
+            color:#fff;
+            margin:10px 0;
+            font-size:14px;
+        }
         .lightbox-desc {
             color:#ffffff;
-            margin-top:16px;
             max-width:900px;
             text-align:center;
             font-size:15px;
             line-height:1.8;
+            white-space: pre-line;
         }
-    
-<style>
-.site-nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:2px solid rgba(226,226,226,.8);}
-.site-nav-inner{max-width:1100px;margin:0 auto;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;}
-.site-nav-brand{font-weight:900;font-size:18px;color:#c0392b;letter-spacing:1px;text-decoration:none;}
-.site-nav-links{display:flex;gap:8px;}
-.site-nav-links a{font-size:14px;font-weight:600;color:#444;padding:8px 16px;border-radius:20px;transition:all .25s;}
-.site-nav-links a:hover{background:rgba(192,57,43,.08);color:#c0392b;}
-.site-nav-links a.active{background:#c0392b;color:#fff;}
-@media(max-width:600px){.site-nav-links a{padding:6px 11px;font-size:13px;}}
-</style>
-</style>
+        .lb-close {
+            position:absolute;
+            top:10px;
+            right:14px;
+            font-size:34px;
+            color:#ffffff;
+            background:rgba(0,0,0,0.35);
+            border:none;
+            width:44px;
+            height:44px;
+            border-radius:50%;
+            cursor:pointer;
+            line-height:1;
+            z-index:10000;
+        }
+        @media (max-width:520px){
+            body{padding:12px;}
+            .photo-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+            .photo-item img{height:130px;}
+            h1{font-size:24px;}
+        }
+    </style>
 </head>
 <body>
-<!-- 語言切換掣：body 直屬，position fixed，手機/平板/桌面都見到 -->
-<div class="lang-switch" style="position:fixed; top:14px; right:14px; z-index:9999; display:flex; gap:0; border:1px solid rgba(192,57,43,0.25); border-radius:20px; overflow:hidden; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,0.15);">
-  <button class="lang-btn active" data-lang="zh" onclick="switchLang('zh')" style="background:transparent;border:none;cursor:pointer;padding:7px 15px;font-size:14px;font-weight:600;color:#444;font-family:inherit;">中</button>
-  <button class="lang-btn" data-lang="en" onclick="switchLang('en')" style="background:transparent;border:none;cursor:pointer;padding:7px 15px;font-size:14px;font-weight:600;color:#444;font-family:inherit;">EN</button>
-</div>
-<style>
-  .lang-switch .lang-btn.active { background:#c0392b; color:#fff !important; }
-  @media (max-width:900px){ .lang-switch{top:12px !important; right:12px !important; position:fixed !important; z-index:99999 !important;} }
-</style>
-
-
-<nav class="site-nav">
-  <div class="site-nav-inner">
-    <a class="site-nav-brand" href="index.html">🏠 香港漫遊</a>
-    <div class="site-nav-links">
-      <a href="index.html" class="active">打卡指南</a>
-      <a href="dragon.html">🐉 龍舟文化</a>
-    </div>
-  </div>
-</nav>
-
     <header>
-        <h1>香港漫遊｜攝影打卡寶地＋地道美食指南</h1>
+        <h1>
+            <span data-lang="zh-Hant">香港網紅打卡熱點</span>
+            <span data-lang="zh-Hans">香港网红打卡热点</span>
+        </h1>
         <div class="intro">
-            走進香港，一面係摩天大樓嘅都市氣派，一面係舊街小巷嘅市井煙火。無論鍾情城市風景、街頭塗鴉、復古建築，又或者想品嘗地道滋味，以下呢啲地點，既可以瘋狂影相，又可以搵食，好適合一日漫遊。
+            <span data-lang="zh-Hant">全港23個人氣攝影地，涵蓋海濱、古蹟、壁畫、咖啡店，附交通同美食參考。點擊相片可放大睇詳情。</span>
+            <span data-lang="zh-Hans">全港23个人气摄影地，涵盖海滨、古迹、壁画、咖啡店，附交通和美食参考。点击相片可放大看详情。</span>
+        </div>
+        <div class="lang-btn-wrap">
+            <button class="lang-btn active" id="btnTrad">繁體</button>
+            <button class="lang-btn" id="btnSimp">简体</button>
         </div>
     </header>
 
-    
-<div class="dragon-entry">
-  <div class="de-text">
-    <div class="de-tag">🐉 專題推薦</div>
-    <h2 class="de-title">龍舟 — 千年競渡，水上傳奇</h2>
-    <p class="de-desc">走進香港傳統節慶，認識龍舟嘅歷史源流、船體結構、訓練竅門同各地流派，仲有活動報名同打卡圖展等你探索。</p>
-    <ul class="de-feats">
-      <li>兩千年歷史時間軸</li>
-      <li>龍舟結構拆解</li>
-      <li>比賽規則 · 訓練要點</li>
-      <li>活動推廣 · 圖展放大</li>
-    </ul>
-    <a class="de-btn" href="dragon.html">進入龍舟專頁 →</a>
-  </div>
-</div>
-<style>
-.dragon-entry{max-width:1100px;margin:24px auto;background:linear-gradient(120deg,#B8232F,#8C1A24);border-radius:16px;padding:36px 40px;color:#fff;box-shadow:0 12px 40px rgba(184,35,47,.25);}
-.de-tag{font-size:14px;letter-spacing:3px;color:#E0C47A;font-weight:700;margin-bottom:10px;}
-.de-title{font-family:'Noto Serif SC',serif;font-size:30px;font-weight:900;letter-spacing:2px;margin-bottom:14px;}
-.de-desc{font-size:15px;line-height:1.9;opacity:.92;max-width:760px;}
-.de-feats{list-style:none;padding:0;margin:18px 0 22px;display:flex;flex-wrap:wrap;gap:10px;}
-.de-feats li{background:rgba(255,255,255,.15);padding:6px 14px;border-radius:20px;font-size:13px;}
-.de-btn{display:inline-block;background:#fff;color:#8C1A24;font-weight:900;font-size:16px;padding:13px 32px;border-radius:30px;transition:transform .2s,box-shadow .2s;}
-.de-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.18);}
-@media(max-width:600px){.dragon-entry{padding:26px 22px;}.de-title{font-size:23px;}.de-feats{flex-direction:column;}}
-</style>
-
     <div class="photo-grid">
-        <!-- 1. The Henderson -->
-        <div class="photo-item" data-desc="【The Henderson】&#10;介紹：中環美利道嘅旋轉玻璃藝術裝置，未來感建築，免費打卡。&#10;🚇交通：港鐵中環站出口，步行3分鐘。&#10;🍜附近食：中環街市各式小食、茶餐廳。">
-            <img src="TH/photo1.jpeg" alt="The Henderson旋轉玻璃漩渦裝置">
-            <div class="photo-caption">The Henderson</div>
+        <!--1 中環摩天輪 -->
+        <div class="photo-item"
+             data-desc-tw="【中環維港摩天輪】
+介紹：海邊摩天輪，平價飽覽維港兩岸景色。
+🚇交通：港鐵中環站A出口向9號碼頭步行
+🍜附近食：海濱小食、IFC商場餐飲"
+             data-desc-cn="【中环维港摩天轮】
+介绍：海边摩天轮，低价饱览维港两岸景色。
+🚇交通：港铁中环站A出口向9号码头步行
+🍜附近吃：海滨小吃、IFC商场餐饮"
+             data-img-count="4"
+             data-folder="hktravel1">
+            <img src="images/gallery/hktravel1/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">中環摩天輪</span>
+                <span data-lang="zh-Hans">中环摩天轮</span>
+            </div>
         </div>
-
-        <!-- 2. 九龍公園噴水池 -->
-        <div class="photo-item" data-desc="【九龍公園噴水池】&#10;介紹：尖沙咀鬧市入面嘅綠洲，舊式噴水池，充滿復古感，適合人文攝影。&#10;🚇交通：港鐵尖沙咀站A1出口，步行5分鐘。&#10;🍜附近食：尖沙咀舊街茶餐廳、魚蛋粉、菠蘿油。">
-            <img src="KL/photo2.jpeg" alt="九龍公園噴水池">
-            <div class="photo-caption">九龍公園噴水池</div>
+        <!--2 The Henderson -->
+        <div class="photo-item"
+             data-desc-tw="【The Henderson】
+介紹：中環美利道旋轉玻璃藝術裝置，未來感建築免費打卡。
+🚇交通：港鐵中環站出口步行3分鐘
+🍜附近食：中環街市各式小食、茶餐廳"
+             data-desc-cn="【The Henderson】
+介绍：中环美利道旋转玻璃艺术装置，未来感建筑免费打卡。
+🚇交通：港铁中环站出口步行3分钟
+🍜附近吃：中环街市各类小吃、茶餐厅"
+             data-img-count="14"
+             data-folder="hktravel2">
+            <img src="images/gallery/hktravel2/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">The Henderson</span>
+                <span data-lang="zh-Hans">The Henderson</span>
+            </div>
         </div>
-
-        <!-- 3. 堅彌地城新海旁 -->
-        <div class="photo-item" data-desc="【堅彌地城新海旁】&#10;介紹：西環海濱長廊，望住維港，街拍同海景人像一流。&#10;🚇交通：港鐵堅尼地城站C出口，步行6分鐘。&#10;🍜附近食：西環街坊麵店、咖啡店。">
-            <img src="KR/photo3.jpeg" alt="堅彌地城新海旁">
-            <div class="photo-caption">堅彌地城新海旁</div>
+        <!--3 中環商業區 -->
+        <div class="photo-item"
+             data-desc-tw="【中環商業區】
+介紹：摩天大樓群，都市感街拍，感受香港金融都會氣息。
+🚇交通：港鐵中環站
+🍜附近食：多國料理、連鎖餐廳、咖啡店"
+             data-desc-cn="【中环商业区】
+介绍：摩天大楼群，都市感街拍，感受香港金融都会气息。
+🚇交通：港铁中环站
+🍜附近吃：多国料理、连锁餐厅、咖啡店"
+             data-img-count="5"
+             data-folder="hktravel3">
+            <img src="images/gallery/hktravel3/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">中環商業區</span>
+                <span data-lang="zh-Hans">中环商业区</span>
+            </div>
         </div>
-
-        <!-- 4. 尖沙咀鐘樓 -->
-        <div class="photo-item" data-desc="【尖沙咀鐘樓】&#10;介紹：九龍地標，前九廣鐵路鐘樓，維港岸邊經典打卡位。&#10;🚇交通：港鐵尖東站J出口；亦可搭天星小輪由中環過海。&#10;🍜附近食：星光大道周邊小食、茶餐廳。">
-            <img src="ST/photo4.jpeg" alt="尖沙咀鐘樓">
-            <div class="photo-caption">尖沙咀鐘樓</div>
+        <!--4 香港公園 -->
+        <div class="photo-item"
+             data-desc-tw="【香港公園】
+介紹：鬧市之中綠洲，溫室、木橋、水景，適合文藝同人像拍攝。
+🚇交通：港鐵金鐘站
+🍜附近食：金鐘商場餐飲、輕食咖啡店"
+             data-desc-cn="【香港公园】
+介绍：闹市之中绿洲，温室、木桥、水景，适合文艺和人像拍摄。
+🚇交通：港铁金钟站
+🍜附近吃：金钟商场餐饮、轻食咖啡店"
+             data-img-count="7"
+             data-folder="hktravel4">
+            <img src="images/gallery/hktravel4/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">香港公園</span>
+                <span data-lang="zh-Hans">香港公园</span>
+            </div>
         </div>
-
-        <!-- 5. 中環維港摩天輪 1 -->
-        <div class="photo-item" data-desc="【中環維港摩天輪】&#10;介紹：中環海邊摩天輪，二十蚊坐三圈，飽覽維港兩岸風景。&#10;🚇交通：港鐵中環站A出口，往9號碼頭方向步行。&#10;🍜附近食：中環海濱小食檔、IFC商場餐廳。">
-            <img src="CR/photo5.jpeg" alt="中環維港摩天輪">
-            <div class="photo-caption">中環維港摩天輪</div>
+        <!--5 中環大館 -->
+        <div class="photo-item"
+             data-desc-tw="【中環大館】
+介紹：舊警署監獄活化古蹟，拱廊中庭，文藝風打卡。
+🚇交通：中環站搭半山扶梯向上
+🍜附近食：大館咖啡、蘇豪區餐廳"
+             data-desc-cn="【中环大馆】
+介绍：旧警署监狱活化古迹，拱廊中庭，文艺风打卡。
+🚇交通：中环站乘坐半山扶梯往上
+🍜附近吃：大馆咖啡、苏豪区餐厅"
+             data-img-count="7"
+             data-folder="hktravel5">
+            <img src="images/gallery/hktravel5/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">中環大館</span>
+                <span data-lang="zh-Hans">中环大馆</span>
+            </div>
         </div>
-        <!-- 6. 中環維港摩天輪 2 -->
-        <div class="photo-item" data-desc="【中環維港摩天輪】&#10;介紹：中環海邊摩天輪，二十蚊坐三圈，飽覽維港兩岸風景。&#10;🚇交通：港鐵中環站A出口，往9號碼頭方向步行。&#10;🍜附近食：中環海濱小食檔、IFC商場餐廳。">
-            <img src="CR/photo6.jpeg" alt="中環維港摩天輪">
-            <div class="photo-caption">中環維港摩天輪</div>
+        <!--6 中環街市 -->
+        <div class="photo-item"
+             data-desc-tw="【中環街市】
+介紹：活化百年舊街市，復古樓梯窗格，滿滿舊香港市井氣息。
+🚇交通：港鐵中環站C出口步行4分鐘
+🍜附近食：街市入面大量地道小食"
+             data-desc-cn="【中环街市】
+介绍：活化百年旧街市，复古楼梯窗格，满满旧香港市井气息。
+🚇交通：港铁中环站C出口步行4分钟
+🍜附近吃：街市里面大量地道小吃"
+             data-img-count="6"
+             data-folder="hktravel6">
+            <img src="images/gallery/hktravel6/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">中環街市</span>
+                <span data-lang="zh-Hans">中环街市</span>
+            </div>
         </div>
-
-        <!--7. 海港城網紅樓梯 1 -->
-        <div class="photo-item" data-desc="【海港城網紅樓梯】&#10;介紹：海港城二樓海邊樓梯，直面維港，黃昏日落拍攝效果最好。&#10;🚇交通：港鐵尖沙咀站海港城出口。&#10;🍜附近食：海港城內各式餐廳，平價至高級都有。">
-            <img src="TS/photo8.jpeg" alt="海港城網紅樓梯">
-            <div class="photo-caption">海港城網紅樓梯</div>
+        <!--7 中環嘉咸街壁畫 -->
+        <div class="photo-item"
+             data-desc-tw="【嘉咸街壁畫牆】
+介紹：中環荷李活道斜坡，舊唐樓壁畫，香港經典網紅牆。
+🚇交通：中環站經半山扶梯步行5分鐘
+🍜附近食：上環茶餐廳、獨立咖啡店"
+             data-desc-cn="【嘉咸街壁画墙】
+介绍：中环荷李活道斜坡，旧唐楼壁画，香港经典网红墙。
+🚇交通：中环站经半山扶梯步行5分钟
+🍜附近吃：上环茶餐厅、独立咖啡店"
+             data-img-count="5"
+             data-folder="hktravel7">
+            <img src="images/gallery/hktravel7/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">中環嘉咸街壁畫</span>
+                <span data-lang="zh-Hans">中环嘉咸街壁画</span>
+            </div>
         </div>
-        <!--8. 海港城網紅樓梯 2 -->
-        <div class="photo-item" data-desc="【海港城網紅樓梯】&#10;介紹：海港城二樓海邊樓梯，直面維港，黃昏日落拍攝效果最好。&#10;🚇交通：港鐵尖沙咀站海港城出口。&#10;🍜附近食：海港城內各式餐廳，平價至高級都有。">
-            <img src="TS/photo17.jpeg" alt="海港城網紅樓梯">
-            <div class="photo-caption">海港城網紅樓梯</div>
+        <!--8 中環藝穗會 -->
+        <div class="photo-item"
+             data-desc-tw="【中環藝穗會】
+介紹：舊建築藝術空間，紅磚外牆，充滿復古藝術氛圍。
+🚇交通：港鐵中環站，沿半山扶梯前往
+🍜附近食：蘇豪區各國小館"
+             data-desc-cn="【中环艺穗会】
+介绍：旧建筑艺术空间，红砖外墙，充满复古艺术氛围。
+🚇交通：港铁中环站，沿半山扶梯前往
+🍜附近吃：苏豪区各国小馆"
+             data-img-count="4"
+             data-folder="hktravel8">
+            <img src="images/gallery/hktravel8/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">中環藝穗會</span>
+                <span data-lang="zh-Hans">中环艺穗会</span>
+            </div>
         </div>
-
-        <!--9. 中環街市 1 -->
-        <div class="photo-item" data-desc="【中環街市】&#10;介紹：活化百年舊街市，復古樓梯窗格，滿滿舊香港市井氣息。&#10;🚇交通：港鐵中環站C出口，步行4分鐘。&#10;🍜附近食：街市入面大量地道小食、燒賣魚蛋、點心。">
-            <img src="CL/photo9.jpeg" alt="中環街市">
-            <div class="photo-caption">中環街市</div>
+        <!--9 中環石板街 -->
+        <div class="photo-item"
+             data-desc-tw="【中環石板街】
+介紹：砵甸乍街，古老石板斜坡，舊香港電影常見取景地。
+🚇交通：港鐵中環站D2出口
+🍜附近食：上環茶餐廳、涼果小店"
+             data-desc-cn="【中环石板街】
+介绍：砵甸乍街，古老石板斜坡，旧香港电影常见取景地。
+🚇交通：港铁中环站D2出口
+🍜附近吃：上环茶餐厅、凉果小店"
+             data-img-count="2"
+             data-folder="hktravel9">
+            <img src="images/gallery/hktravel9/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">中環石板街</span>
+                <span data-lang="zh-Hans">中环石板街</span>
+            </div>
         </div>
-        <!--10. 中環街市 2 -->
-        <div class="photo-item" data-desc="【中環街市】&#10;介紹：活化百年舊街市，復古樓梯窗格，滿滿舊香港市井氣息。&#10;🚇交通：港鐵中環站C出口，步行4分鐘。&#10;🍜附近食：街市入面大量地道小食、燒賣魚蛋、點心。">
-            <img src="CL/photo10.jpeg" alt="中環街市">
-            <div class="photo-caption">中環街市</div>
+        <!--10 西營盤正街 -->
+        <div class="photo-item"
+             data-desc-tw="【西營盤正街】
+介紹：西環老街道，舊唐樓、老街舖，濃厚街坊市井風情。
+🚇交通：港鐵西營盤站
+🍜附近食：傳統麵家、粥店、老字號小食"
+             data-desc-cn="【西营盘正街】
+介绍：西环老街道，旧唐楼、老店铺，浓厚街坊市井风情。
+🚇交通：港铁西营盘站
+🍜附近吃：传统面家、粥店、老字号小吃"
+             data-img-count="2"
+             data-folder="hktravel10">
+            <img src="images/gallery/hktravel10/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">西營盤正街</span>
+                <span data-lang="zh-Hans">西营盘正街</span>
+            </div>
         </div>
-        <!--11. 中環街市 3 -->
-        <div class="photo-item" data-desc="【中環街市】&#10;介紹：活化百年舊街市，復古樓梯窗格，滿滿舊香港市井氣息。&#10;🚇交通：港鐵中環站C出口，步行4分鐘。&#10;🍜附近食：街市入面大量地道小食、燒賣魚蛋、點心。">
-            <img src="CL/photo11.jpeg" alt="中環街市">
-            <div class="photo-caption">中環街市</div>
+        <!--11 西營盤塗鴉牆 -->
+        <div class="photo-item"
+             data-desc-tw="【西營盤塗鴉牆】
+介紹：街頭藝術塗鴉，色彩豐富，潮流街拍好去處。
+🚇交通：港鐵西營盤站步行數分鐘
+🍜附近食：西環平價茶餐廳"
+             data-desc-cn="【西营盘涂鸦墙】
+介绍：街头艺术涂鸦，色彩丰富，潮流街拍好去处。
+🚇交通：港铁西营盘站步行数分钟
+🍜附近吃：西环平价茶餐厅"
+             data-img-count="9"
+             data-folder="hktravel11">
+            <img src="images/gallery/hktravel11/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">西營盤塗鴉牆</span>
+                <span data-lang="zh-Hans">西营盘涂鸦墙</span>
+            </div>
         </div>
-
-        <!--12. 嘉咸街壁畫 1 -->
-        <div class="photo-item" data-desc="【中環嘉咸街壁畫牆】&#10;介紹：荷李活道斜坡壁畫，畫滿舊唐樓，香港經典街拍聖地。&#10;🚇交通：港鐵中環站，沿半山扶梯步行5分鐘。&#10;🍜附近食：上環茶餐廳、咖啡小店。">
-            <img src="CM/photo12.jpeg" alt="中環嘉咸街壁畫牆">
-            <div class="photo-caption">嘉咸街壁畫牆</div>
+        <!--12 堅尼地城籃球場海景 -->
+        <div class="photo-item"
+             data-desc-tw="【堅尼地城籃球場海景】
+介紹：籃球場望住維港海景，落日畫面非常有電影感。
+🚇交通：港鐵堅尼地城站C出口
+🍜附近食：海邊咖啡店、街坊麵店"
+             data-desc-cn="【坚尼地城篮球场海景】
+介绍：篮球场望向维港海景，落日画面非常有电影感。
+🚇交通：港铁坚尼地城站C出口
+🍜附近吃：海边咖啡店、街坊面店"
+             data-img-count="3"
+             data-folder="hktravel12">
+            <img src="images/gallery/hktravel12/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">堅尼地城籃球場海景</span>
+                <span data-lang="zh-Hans">坚尼地城篮球场海景</span>
+            </div>
         </div>
-        <!--13. 嘉咸街壁畫 2 -->
-        <div class="photo-item" data-desc="【中環嘉咸街壁畫牆】&#10;介紹：荷李活道斜坡壁畫，畫滿舊唐樓，香港經典街拍聖地。&#10;🚇交通：港鐵中環站，沿半山扶梯步行5分鐘。&#10;🍜附近食：上環茶餐廳、咖啡小店。">
-            <img src="CM/photo13.jpeg" alt="中環嘉咸街壁畫牆">
-            <div class="photo-caption">嘉咸街壁畫牆</div>
+        <!--13 Winstons Coffee -->
+        <div class="photo-item"
+             data-desc-tw="【Winstons Coffee】
+介紹：西環人氣咖啡店，復古英倫風裝修，招牌咖啡同全日早餐。
+🚇交通：港鐵堅尼地城站B出口步行4分鐘
+🍜附近食：西環一帶咖啡店、茶餐廳"
+             data-desc-cn="【Winstons Coffee】
+介绍：西环人气咖啡店，复古英伦风装修，招牌咖啡和全日早餐。
+🚇交通：港铁坚尼地城站B出口步行4分钟
+🍜附近吃：西环一带咖啡店、茶餐厅"
+             data-img-count="5"
+             data-folder="hktravel13">
+            <img src="images/gallery/hktravel13/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">Winstons Coffee</span>
+                <span data-lang="zh-Hans">Winstons Coffee</span>
+            </div>
         </div>
-
-        <!--14. 中環大館 -->
-        <div class="photo-item" data-desc="【中環大館古蹟建築】&#10;介紹：舊警署監獄活化古蹟，拱廊、中庭，文藝氣息重，免費入場。&#10;🚇交通：港鐵中環站，半山扶梯向上步行。&#10;🍜附近食：大館內咖啡店、蘇豪區多國菜。">
-            <img src="CH/photo14.jpeg" alt="中環大館古蹟建築">
-            <div class="photo-caption">中環大館</div>
+        <!--14 堅尼地城海旁 -->
+        <div class="photo-item"
+             data-desc-tw="【堅彌地城新海旁】
+介紹：西環海濱長廊，望住維港，街拍同海景人像一流。
+🚇交通：港鐵堅尼地城站C出口步行6分鐘
+🍜附近食：西環街坊麵店、咖啡店"
+             data-desc-cn="【坚弥地城新海旁】
+介绍：西环海滨长廊，眺望维港，街拍和海景人像一流。
+🚇交通：港铁坚尼地城站C出口步行6分钟
+🍜附近吃：西环街坊面店、咖啡店"
+             data-img-count="7"
+             data-folder="hktravel14">
+            <img src="images/gallery/hktravel14/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">堅尼地城海旁</span>
+                <span data-lang="zh-Hans">坚尼地城海旁</span>
+            </div>
         </div>
-
-        <!--15. 富豪雪糕車 -->
-        <div class="photo-item" data-desc="【富豪雪糕車】&#10;介紹：香港標誌流動雪糕車，香滑軟雪糕，車身本身就係打卡風景。&#10;🚇交通：流動擺放，常見於尖沙咀、中環碼頭一帶。&#10;🍜附近食：就係食佢嘅軟雪糕！">
-            <img src="QO/photo15.jpeg" alt="富豪雪糕車">
-            <div class="photo-caption">富豪雪糕車</div>
+        <!--15 % Arabica -->
+        <div class="photo-item"
+             data-desc-tw="【%Arabica咖啡店】
+介紹：人氣日式咖啡店，落地玻璃望住海，文青打卡必去。
+🚇交通：港鐵堅尼地城站C出口步行5分鐘
+🍜附近食：西環海濱一帶咖啡店、街坊小食"
+             data-desc-cn="【%Arabica咖啡店】
+介绍：人气日式咖啡店，落地玻璃望海，文青打卡必去。
+🚇交通：港铁坚尼地城站C出口步行5分钟
+🍜附近吃：西环海滨一带咖啡店、街坊小吃"
+             data-img-count="2"
+             data-folder="hktravel15">
+            <img src="images/gallery/hktravel15/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">% Arabica</span>
+                <span data-lang="zh-Hans">% Arabica</span>
+            </div>
         </div>
-
-        <!--16. 堅尼地城 Arabica -->
-        <div class="photo-item" data-desc="【堅尼地城%Arabica咖啡店】&#10;介紹：人氣日式咖啡店，落地玻璃望住海，文青打卡必去，拿鐵同檸檬咖啡好受歡迎。&#10;🚇交通：港鐵堅尼地城站C出口，步行5分鐘。&#10;🍜附近食：西環海濱一帶咖啡店、街坊小食。">
-            <img src="KE/photo16.jpeg" alt="堅尼地城%Arabica咖啡店">
-            <div class="photo-caption">堅尼地城Arabica</div>
+        <!--16 灣仔循道衛理 -->
+        <div class="photo-item"
+             data-desc-tw="【灣仔循道衛理教堂】
+介紹：淺色歐式教堂建築，簡約唯美，適合人像拍攝。
+🚇交通：港鐵灣仔站
+🍜附近食：灣仔茶餐廳、東南亞美食"
+             data-desc-cn="【湾仔循道卫理教堂】
+介绍：浅色欧式教堂建筑，简约唯美，适合人像拍摄。
+🚇交通：港铁湾仔站
+🍜附近吃：湾仔茶餐厅、东南亚美食"
+             data-img-count="4"
+             data-folder="hktravel16">
+            <img src="images/gallery/hktravel16/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">灣仔循道衛理</span>
+                <span data-lang="zh-Hans">湾仔循道卫理</span>
+            </div>
         </div>
-
-        <!--17. 半島酒店 -->
-        <div class="photo-item" data-desc="【半島酒店外觀】&#10;介紹：尖沙咀地標，復古歐式建築，門口旋轉門同噴水池，古典優雅，經典打卡位。&#10;🚇交通：港鐵尖沙咀站E出口，步行3分鐘。&#10;🍜附近食：半島酒店下午茶、尖沙咀各式餐廳。">
-            <img src="SF/photo18.jpeg" alt="半島酒店外觀">
-            <div class="photo-caption">半島酒店外觀</div>
+        <!--17 九龍公園噴水池 -->
+        <div class="photo-item"
+             data-desc-tw="【九龍公園噴水池】
+介紹：尖沙咀鬧市入面嘅綠洲，舊式噴水池，充滿復古感，適合人文攝影。
+🚇交通：港鐵尖沙咀站A1出口步行5分鐘
+🍜附近食：尖沙咀舊街茶餐廳、魚蛋粉、菠蘿油"
+             data-desc-cn="【九龙公园喷水池】
+介绍：尖沙咀闹市里面的绿洲，旧式喷水池，充满复古感，适合人文摄影。
+🚇交通：港铁尖沙咀站A1出口步行5分钟
+🍜附近吃：尖沙咀老街茶餐厅、鱼蛋粉、菠萝油"
+             data-img-count="5"
+             data-folder="hktravel17">
+            <img src="images/gallery/hktravel17/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">九龍公園噴水池</span>
+                <span data-lang="zh-Hans">九龙公园喷水池</span>
+            </div>
         </div>
-
-        <!--18. Winstons Coffee -->
-        <div class="photo-item" data-desc="【Winstons Coffee】&#10;介紹：西環人氣咖啡店，復古英倫風裝修，招牌咖啡同全日早餐，街坊同遊客都鍾意。&#10;🚇交通：港鐵堅尼地城站B出口，步行4分鐘。&#10;🍜附近食：西環一帶咖啡店、茶餐廳。">
-            <img src="WS/photo19.jpeg" alt="Winstons Coffee">
-            <div class="photo-caption">Winstons Coffee</div>
+        <!--18 海港城網紅樓梯 -->
+        <div class="photo-item"
+             data-desc-tw="【海港城網紅樓梯】
+介紹：海港城二樓海邊樓梯，直面維港，黃昏日落拍攝效果最好。
+🚇交通：港鐵尖沙咀站海港城出口
+🍜附近食：海港城內各式餐廳"
+             data-desc-cn="【海港城网红楼梯】
+介绍：海港城二楼海边楼梯，正对维港，黄昏日落拍摄效果最好。
+🚇交通：港铁尖沙咀站海港城出口
+🍜附近吃：海港城内各类餐厅"
+             data-img-count="5"
+             data-folder="hktravel18">
+            <img src="images/gallery/hktravel18/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">海港城網紅樓梯</span>
+                <span data-lang="zh-Hans">海港城网红楼梯</span>
+            </div>
         </div>
-
-        <!--19. 油麻地警署 -->
-        <div class="photo-item" data-desc="【油麻地警署】&#10;介紹：香港三級歷史建築，愛德華式建築，好多港產片同劇集取景地，充滿舊香港風情。&#10;🚇交通：港鐵油麻地站C出口，步行2分鐘。&#10;🍜附近食：廟街夜市、油麻地茶餐廳、煲仔飯。">
-            <img src="YM/photo7.jpeg" alt="油麻地警署">
-            <div class="photo-caption">油麻地警署</div>
+        <!--19 富豪雪糕車 -->
+        <div class="photo-item"
+             data-desc-tw="【富豪雪糕車】
+介紹：香港標誌流動雪糕車，香滑軟雪糕，車身本身就係打卡風景。
+🚇交通：流動擺放，常見於尖沙咀、中環碼頭一帶。
+🍜附近食：就係食佢嘅軟雪糕！"
+             data-desc-cn="【富豪雪糕车】
+介绍：香港标志流动雪糕车，香滑软雪糕，车身本身就是打卡风景。
+🚇交通：流动摆放，常见于尖沙咀、中环码头一带。
+🍜附近吃：就是吃它的软雪糕！"
+             data-img-count="7"
+             data-folder="hktravel19">
+            <img src="images/gallery/hktravel19/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">富豪雪糕車</span>
+                <span data-lang="zh-Hans">富豪雪糕车</span>
+            </div>
+        </div>
+        <!--20 尖沙咀星光大道 -->
+        <div class="photo-item"
+             data-desc-tw="【尖沙咀星光大道】
+介紹：維港海濱，望中環天際線，夜景同日落都非常出片。
+🚇交通：港鐵尖東站J出口
+🍜附近食：尖沙咀海旁小食、茶餐廳"
+             data-desc-cn="【尖沙咀星光大道】
+介绍：维港海滨，眺望中环天际线，夜景和日落都非常出片。
+🚇交通：港铁尖东站J出口
+🍜附近吃：尖沙咀海边小吃、茶餐厅"
+             data-img-count="8"
+             data-folder="hktravel20">
+            <img src="images/gallery/hktravel20/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">尖沙咀星光大道</span>
+                <span data-lang="zh-Hans">尖沙咀星光大道</span>
+            </div>
+        </div>
+        <!--21 油麻地舊警署 -->
+        <div class="photo-item"
+             data-desc-tw="【油麻地警署】
+介紹：香港三級歷史建築，愛德華式建築，好多港產片取景地。
+🚇交通：港鐵油麻地站C出口步行2分鐘
+🍜附近食：廟街夜市、油麻地茶餐廳、煲仔飯"
+             data-desc-cn="【油麻地警署】
+介绍：香港三级历史建筑，爱德华式建筑，很多港产片取景地。
+🚇交通：港铁油麻地站C出口步行2分钟
+🍜附近吃：庙街夜市、油麻地茶餐厅、煲仔饭"
+             data-img-count="1"
+             data-folder="hktravel21">
+            <img src="images/gallery/hktravel21/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">油麻地舊警署</span>
+                <span data-lang="zh-Hans">油麻地旧警署</span>
+            </div>
+        </div>
+        <!--22 鰂魚涌怪獸大廈 -->
+        <div class="photo-item"
+             data-desc-tw="【鰂魚涌怪獸大廈】
+介紹：高密度舊住宅大廈，經典壓迫感城市景觀，電影取景地。
+🚇交通：港鐵鰂魚涌站A出口
+🍜附近食：鰂魚涌街坊茶餐廳、魚蛋河"
+             data-desc-cn="【鲗鱼涌怪兽大厦】
+介绍：高密度旧住宅大厦，经典压迫感城市景观，电影取景地。
+🚇交通：港铁鲗鱼涌站A出口
+🍜附近吃：鲗鱼涌街坊茶餐厅、鱼蛋河"
+             data-img-count="3"
+             data-folder="hktravel22">
+            <img src="images/gallery/hktravel22/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">鰂魚涌怪獸大廈</span>
+                <span data-lang="zh-Hans">鲗鱼涌怪兽大厦</span>
+            </div>
+        </div>
+        <!--23 土瓜灣牛棚藝術村 -->
+        <div class="photo-item"
+             data-desc-tw="【土瓜灣牛棚藝術村】
+介紹：舊馬廄活化藝術空間，紅磚平房，復古工業風攝影聖地。
+🚇交通：港鐵土瓜灣站步行
+🍜附近食：土瓜灣老字號茶餐廳"
+             data-desc-cn="【土瓜湾牛棚艺术村】
+介绍：旧马厩活化艺术空间，红砖平房，复古工业风摄影圣地。
+🚇交通：港铁土瓜湾站步行
+🍜附近吃：土瓜湾老字号茶餐厅"
+             data-img-count="1"
+             data-folder="hktravel23">
+            <img src="images/gallery/hktravel23/photo1.jpg" alt="">
+            <div class="photo-caption">
+                <span data-lang="zh-Hant">土瓜灣牛棚藝術村</span>
+                <span data-lang="zh-Hans">土瓜湾牛棚艺术村</span>
+            </div>
         </div>
     </div>
 
     <div class="tips-box">
-        <h3>📷拍攝小提示</h3>
+        <h3>
+            <span data-lang="zh-Hant">📷拍攝小貼士</span>
+            <span data-lang="zh-Hans">📷拍摄小贴士</span>
+        </h3>
         <ul>
-            <li>維港夜景建議黃昏前半小時到，藍調時刻畫面最好睇</li>
-            <li>海邊風大，相機記得握穩，注意器材安全</li>
-            <li>大部分市區景點免費，部分展覽需要另外購票</li>
+            <li>
+                <span data-lang="zh-Hant">維港景點建議黃昏到達，藍調時刻畫面最靚</span>
+                <span data-lang="zh-Hans">维港景点建议黄昏抵达，蓝调时刻画面最好看</span>
+            </li>
+            <li>
+                <span data-lang="zh-Hant">海邊風大，注意相機、手機唔好跌落海</span>
+                <span data-lang="zh-Hans">海边风大，注意相机、手机不要掉进海里</span>
+            </li>
+            <li>
+                <span data-lang="zh-Hant">多數打卡點免費，部分展覽要另外買飛</span>
+                <span data-lang="zh-Hans">多数打卡点免费，部分展览需要另外购票</span>
+            </li>
         </ul>
     </div>
 
     <footer>
         <div class="contact-block">
-            <p>📸香港約拍・陪拍・街拍，小型社區活動服務 (只限於星期六日或公眾假期 )｜歡迎預約 香港人像、城市風景攝影、小型社區活動攝影</p>
+            <p>
+                <span data-lang="zh-Hant">📸香港約拍・陪拍・街拍，小型社區活動服務 (只限於星期六日或公眾假期 )｜歡迎預約 香港人像、城市風景攝影、小型社區活動攝影</span>
+                <span data-lang="zh-Hans">📸香港约拍・陪拍・街拍，小型社区活动服务 (只限于星期六日或公众假期 )｜欢迎预约 香港人像、城市风景摄影、小型社区活动摄影</span>
+            </p>
             <div class="qr-wrap">
                 <div class="qr-card">
-                    <img src="douyin_qr.jpg" alt="抖音：來都來了">
+                    <img src="images/Banner/douyin.jpg" alt="抖音：來都來了">
                     <p><strong>抖音：來都來了</strong></p>
                     <p>抖音號：HalfImmortal</p>
                 </div>
                 <div class="qr-card">
-                    <img src="xiaohongshu_qr.jpg" alt="小紅書：來都來了">
+                    <img src="images/Banner/xiaohongshu.jpg" alt="小紅書：來都來了">
                     <p><strong>小紅書：來都來了</strong></p>
                     <p>小紅書號：Firefans</p>
                 </div>
                 <div class="qr-card">
-                    <img src="wechat_qr.jpg" alt="微信：來都來了">
+                    <img src="images/Banner/wechat.jpg" alt="微信：來都來了">
                     <p><strong>微信：來都來了</strong></p>
                     <p>掃描QR Code，新增我為朋友</p>
                 </div>
@@ -374,34 +711,97 @@
         </div>
     </footer>
 
+    <div class="lightbox">
+        <button class="lb-close" type="button">&#10005;</button>
+        <div class="lightbox-inner">
+            <button class="lb-arrow lb-prev">&#8249;</button>
+            <img class="lightbox-img" src="" alt="">
+            <button class="lb-arrow lb-next">&#8250;</button>
+        </div>
+        <div class="lb-count"></div>
+        <div class="lightbox-desc"></div>
+    </div>
+
     <script>
-        const items = document.querySelectorAll('.photo-item');
-        const lightbox = document.createElement('div');
-        lightbox.className = 'lightbox';
-        lightbox.innerHTML = `<img src="" alt="大圖"><div class="lightbox-desc"></div>`;
-        document.body.appendChild(lightbox);
+        const htmlEl = document.documentElement;
+        const btnTrad = document.getElementById('btnTrad');
+        const btnSimp = document.getElementById('btnSimp');
+        const lightbox = document.querySelector('.lightbox');
+        const lbImg = lightbox.querySelector('.lightbox-img');
+        const lbPrev = lightbox.querySelector('.lb-prev');
+        const lbNext = lightbox.querySelector('.lb-next');
+        const lbCount = lightbox.querySelector('.lb-count');
+        const lbDesc = lightbox.querySelector('.lightbox-desc');
+        const lbClose = lightbox.querySelector('.lb-close');
 
-        items.forEach(el=>{
-            el.addEventListener('click',()=>{
-                const img = el.querySelector('img');
-                const desc = el.dataset.desc || '';
-                lightbox.querySelector('img').src = img.src;
-                lightbox.querySelector('.lightbox-desc').innerText = desc;
-                lightbox.style.display = 'flex';
-            })
-        })
-        lightbox.addEventListener('click',()=>{
-            lightbox.style.display = 'none';
-        })
+        let currentFolder = "";
+        let totalImg = 0;
+        let currentIdx = 1;
+
+        function setLang(lang){
+            htmlEl.lang = lang;
+            btnTrad.classList.toggle('active', lang === 'zh-Hant');
+            btnSimp.classList.toggle('active', lang === 'zh-Hans');
+        }
+        btnTrad.addEventListener('click', function(){ setLang('zh-Hant'); });
+        btnSimp.addEventListener('click', function(){ setLang('zh-Hans'); });
+
+        document.querySelectorAll('.photo-item').forEach(function(item){
+            item.addEventListener('click', function(){
+                currentFolder = item.dataset.folder;
+                totalImg = Number(item.dataset.imgCount) || 1;
+                currentIdx = 1;
+                refreshLightbox();
+                lightbox.style.display = "flex";
+            });
+        });
+
+        function refreshLightbox(){
+            lbImg.src = "images/gallery/" + currentFolder + "/photo" + currentIdx + ".jpg";
+            lbCount.innerText = "第 " + currentIdx + " 張 / 共 " + totalImg + " 張";
+            const item = document.querySelector('[data-folder="' + currentFolder + '"]');
+            if(htmlEl.lang === "zh-Hans"){
+                lbDesc.innerText = item.dataset.descCn;
+            }else{
+                lbDesc.innerText = item.dataset.descTw;
+            }
+        }
+
+        lbPrev.addEventListener('click', function(e){
+            e.stopPropagation();
+            currentIdx -= 1;
+            if(currentIdx < 1) currentIdx = totalImg;
+            refreshLightbox();
+        });
+        lbNext.addEventListener('click', function(e){
+            e.stopPropagation();
+            currentIdx += 1;
+            if(currentIdx > totalImg) currentIdx = 1;
+            refreshLightbox();
+        });
+        lightbox.addEventListener('click', function(e){
+            if(e.target === lightbox){
+                lightbox.style.display = "none";
+            }
+        });
+        lbClose.addEventListener('click', function(e){
+            e.stopPropagation();
+            lightbox.style.display = "none";
+        });
+        document.addEventListener('keydown', function(e){
+            if(lightbox.style.display !== "flex") return;
+            if(e.key === "Escape"){
+                lightbox.style.display = "none";
+            }else if(e.key === "ArrowLeft"){
+                currentIdx -= 1;
+                if(currentIdx < 1) currentIdx = totalImg;
+                refreshLightbox();
+            }else if(e.key === "ArrowRight"){
+                currentIdx += 1;
+                if(currentIdx > totalImg) currentIdx = 1;
+                refreshLightbox();
+            }
+        });
     </script>
-
-<script>
-function switchLang(lang){
-  var el = document.documentElement;
-  if(lang === 'en') el.className = 'lang-en'; else el.className = '';
-  var btns = document.querySelectorAll('.lang-btn');
-  btns.forEach(function(b){ b.classList.toggle('active', b.dataset.lang === lang); });
-}
-</script>
 </body>
 </html>
